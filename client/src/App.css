@@ -45,12 +45,12 @@
 
 .home-description {
   align-self: center;
-  flex: 1 1 360px;
-  padding: 10%;
+  flex: 4 4 360px;
+  padding: 8vw;
 }
 .login-form, .register-form {
-  flex: 1 1 360px;
-  padding: 10%;
+  flex: 10 10 360px;
+  padding: 8vw;
 }
 
 .password-with-show {
@@ -67,4 +67,16 @@
   align-self: center !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+.logout-btn {
+  border-radius: 10px;
+  background-color: purple !important;
+  color: white !important;
+}
+
+.logout-btn:hover {
+  border-radius: 5px;
+  background-color: violet !important;
+  color: white !important;
 }
