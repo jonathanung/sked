@@ -35,7 +35,7 @@ export default function HomePage() {
             <Navigation loggedIn={false} />
             <div className={tilesDict[isWide]}>
                 <Description />
-                {reg ? <Register swapReg={swapReg} /> : <Login swapReg={swapReg} />}}
+                {reg ? <Register swapReg={swapReg} /> : <Login swapReg={swapReg} />}
             </div>
         </div>
     )
