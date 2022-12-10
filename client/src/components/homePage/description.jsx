@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Description of the application
+ * @returns the description component
+ */
 export default function Description(){
     return(
         <div className="home-description">

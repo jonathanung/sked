@@ -4,8 +4,11 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { Badge } from 'react-bootstrap';
 import axios from 'axios';
 
+/**
+ * The registration component for the application
+ * @returns the registration component
+ */
 export default function Register(props) {
-
     const initFormState = {
         firstName: '',
         lastName: '',
@@ -36,7 +39,7 @@ export default function Register(props) {
         e.preventDefault();
         axios.post("http://localhost:8000/api/user/register", user, {withCredentials: true})
             .then(res => {
-                res.data.errors ? console.log(res.data.errors) : navigate("/dashboard")
+                res.data.errors ? setErrors(res.data.errors) : navigate("/dashboard")
             })
             .catch(err => console.log(err))
     }
@@ -47,15 +50,18 @@ export default function Register(props) {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for="firstName">First name</Label>
-                    <Input type="text" name="firstName" id="firstName" value={user.firstName || ''} onChange={handleChange} autoComplete="firstName"/>
+                    <Input type="text" name="firstName" id="firstName" value={user.firstName || ''} onChange={handleChange} autoComplete="firstName" />
+                    {errors.firstName? <Badge className="error" bg="danger">{errors.firstName.message}</Badge>: null}
                 </FormGroup>
                 <FormGroup>
                     <Label for="lastName">Last name</Label>
-                    <Input type="text" name="lastName" id="lastName" value={user.lastName || ''} onChange={handleChange} autoComplete="lastName"/>
+                    <Input type="text" name="lastName" id="lastName" value={user.lastName || ''} onChange={handleChange} autoComplete="lastName" />
+                    {errors.lastName? <Badge className="error" bg="danger">{errors.lastName.message}</Badge>: null}
                 </FormGroup>
                 <FormGroup>
                     <Label for="email">Email</Label>
-                    <Input type="text" name="email" id="email" value={user.email || ''} onChange={handleChange} autoComplete="email"/>
+                    <Input type="text" name="email" id="email" value={user.email || ''} onChange={handleChange} autoComplete="email" />
+                    {errors.email? <Badge className="error" bg="danger">{errors.email.message}</Badge>: null}
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label> 
@@ -63,10 +69,12 @@ export default function Register(props) {
                         <Input type={passDict[visible][0]} name="password" id="password" value={user.password || ''} onChange={handleChange} autoComplete="password"/> 
                         <Button color="secondary" onClick={showPass} size="sm">{passDict[visible][1]}</Button>
                     </div>
+                    {errors.password? <Badge className="error" bg="danger">{errors.password.message}</Badge>: <Badge className="default" bg="secondary">Passwords must be at least 8 characters long and have an uppercase letter, a lowercase letter, a number and a symbol.</Badge>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="confirmPassword">Confirm password</Label>
-                    <Input type={passDict[visible][0]} name="confirmPassword" id="confirmPassword" value={user.confirmPassword|| ''} onChange={handleChange}/>
+                    <Input type={passDict[visible][0]} name="confirmPassword" id="confirmPassword" value={user.confirmPassword || ''} onChange={handleChange} />
+                    {errors.confirmPassword? <Badge className="error" bg="danger">{errors.confirmPassword.message}</Badge>: null}
                 </FormGroup>
                 <FormGroup>
                     <Button color="primary" type="submit">Register</Button>

@@ -4,8 +4,11 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { Badge } from 'react-bootstrap';
 import axios from "axios";
 
+/**
+ * The login form for the application
+ * @returns the login component
+ */
 export default function Login(props){
-
     const initFormState = {
         email: '',
         password : ''
