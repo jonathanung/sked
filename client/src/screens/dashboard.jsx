@@ -19,7 +19,7 @@ export default function Dashboard() {
 
     return(
         <div className="dashboard">
-            <Navigation loggedIn={true}/>
+            <Navigation loggedIn={true} user={user}/>
         </div>
     )
 }

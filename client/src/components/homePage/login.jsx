@@ -15,7 +15,7 @@ export default function Login(props){
     };
     const [user, setUser] = useState(initFormState);
     const [visible, setVisible] = useState(false);
-    let [valid, setValid] = useState(true)
+    const [valid, setValid] = useState(true)
     const navigate = useNavigate();
 
     const passDict = {

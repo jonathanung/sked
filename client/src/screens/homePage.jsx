@@ -14,6 +14,7 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 export default function HomePage() {
     const [reg, setReg] = useState(false);
     const { height, width } = useWindowDimensions();
+    const navigate = useNavigate();
     const isWide = height*1.3 < width;
     const swapReg = () => {
         !reg ? setReg(true) : setReg(false);
@@ -25,9 +26,9 @@ export default function HomePage() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/user/logout", {withCredentials: true})
-            .then(res => console.log("logged out!"))
-            .catch(err => console.log(err));
+        axios.get("http://localhost:8000/api/user/current", {withCredentials: true})
+            .then(res => navigate('/dashboard'))
+            .catch(err => err);
     }, [])
 
     return (

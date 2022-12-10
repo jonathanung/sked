@@ -4,7 +4,7 @@
   background-color: lightgray;
 }
 
-.home-page{
+.home-page, .dashboard, .logged-out{
   min-height: 100vh;
 }
 
@@ -60,7 +60,8 @@
 .right-cont{
   width:auto !important;
   display:flex;
-  justify-content: flex-end;
+  align-items:flex-end;
+  justify-content: space-evenly;
 }
 
 .center-cont {
@@ -73,10 +74,15 @@
   border-radius: 10px;
   background-color: purple !important;
   color: white !important;
+  margin-left: 10px;
 }
 
 .logout-btn:hover {
   border-radius: 5px;
   background-color: violet !important;
   color: white !important;
+}
+
+.logged-out-cont {
+  margin: 40vh 10vw 0vh 10vw
 }
