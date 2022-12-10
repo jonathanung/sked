@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navigation from "../components/application/navigation";
 
+/**
+ * The dashboard screen of the application, where the logged in user can interact
+ * @returns The dashboard screen, or navigates to homepage if no user is logged in
+ */
 export default function Dashboard() {
     const [user, setUser] = useState({})
     const navigate = useNavigate();

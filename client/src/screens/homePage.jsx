@@ -7,11 +7,21 @@ import Login from "../components/homePage/login";
 import Register from "../components/homePage/registration";
 import useWindowDimensions from '../hooks/useWindowDimensions';
 
+/**
+ * The home page screen, where the user can see the description and the login and registration pages
+ * @returns The homePage screen
+ */
 export default function HomePage() {
     const [reg, setReg] = useState(false);
     const { height, width } = useWindowDimensions();
+    const isWide = height*1.3 < width;
     const swapReg = () => {
         !reg ? setReg(true) : setReg(false);
+    }
+
+    const tilesDict = {
+        true: "home-page-tiles",
+        false: "home-page-tiles-vert"
     }
 
     useEffect(() => {
@@ -20,49 +30,13 @@ export default function HomePage() {
             .catch(err => console.log(err));
     }, [])
 
-    if (height*1.3 > width) { 
-        if (!reg) {
-            return (
-                <div className="home-page">
-                    <Navigation loggedIn={false} />
-                    <div className="home-page-tiles-vert">
-                        <Description />
-                        <Login swapReg={swapReg} />
-                    </div>
-                </div>
-            )
-        } else {
-            return (
-                <div className="home-page">
-                    <Navigation loggedIn={false} />
-                    <div className="home-page-tiles-vert">
-                        <Description />
-                        <Register swapReg={swapReg} />
-                    </div>
-                </div>
-            )
-        }
-    } else {
-        if (!reg) {
-            return (
-                <div className="home-page">
-                    <Navigation loggedIn={false} />
-                    <div className="home-page-tiles">
-                        <Description />
-                        <Login swapReg={swapReg} />
-                    </div>
-                </div>
-            )
-        } else {
-            return (
-                <div className="home-page">
-                    <Navigation loggedIn={false} />
-                    <div className="home-page-tiles">
-                        <Description />
-                        <Register swapReg={swapReg} />
-                    </div>
-                </div>
-            )
-        }
-    }
+    return (
+        <div className="home-page">
+            <Navigation loggedIn={false} />
+            <div className={tilesDict[isWide]}>
+                <Description />
+                {reg ? <Register swapReg={swapReg} /> : <Login swapReg={swapReg} />}}
+            </div>
+        </div>
+    )
 }
