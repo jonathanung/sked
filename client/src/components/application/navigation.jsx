@@ -17,7 +17,7 @@ export default function Navigation(props){
                 </Container>
                 <Container className="right-cont">
                     <Nav className="me-auto right-nav">
-                        <Nav.Link href="/">logout!</Nav.Link>
+                        <Nav.Link href="/" className="logout-btn">logout!</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
