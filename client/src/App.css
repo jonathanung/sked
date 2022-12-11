@@ -54,14 +54,18 @@
 }
 
 .password-with-show {
- display:flex;
+  display:flex;
 }
 
-.right-cont{
-  width:auto !important;
-  display:flex;
-  align-items:flex-end;
-  justify-content: space-evenly;
+.left-nav, .right-nav {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.right-nav{
+  flex-basis: auto;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .center-cont {
@@ -75,6 +79,7 @@
   background-color: purple !important;
   color: white !important;
   margin-left: 10px;
+  align-self: center !important;
 }
 
 .logout-btn:hover {
@@ -85,4 +90,18 @@
 
 .logged-out-cont {
   margin: 40vh 10vw 0vh 10vw
+}
+
+.dashboard-content {
+  display:flex;
+  flex-direction: row;
+  min-height: 80vh;
+}
+
+.dashboard-links{
+  background-color: darkblue;
+}
+
+.badge {
+  white-space:normal !important;
 }

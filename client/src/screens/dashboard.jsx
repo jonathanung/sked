@@ -9,17 +9,29 @@ import Navigation from "../components/application/navigation";
  */
 export default function Dashboard() {
     const [user, setUser] = useState({})
+    const [loaded, setLoaded] = useState(false);
     const navigate = useNavigate();
 
+    const setUserAPI = (userData) => {
+        setUser(userData);
+        setLoaded(true);
+    }
+
     useEffect(() => {
-        axios.get("http://localhost:8000/api/user/current", { withCredentials: true })
-            .then(res => setUser(res.data))
-            .catch(err => navigate("/"))
-    }, [])
+        loaded
+            ? document.title = user.firstName.toLowerCase() + "'s " + "sked."
+            : axios.get("http://localhost:8000/api/user/current", { withCredentials: true })
+                .then(res => setUserAPI(res.data))
+                .catch(err => navigate("/"))
+    }, [loaded])
 
     return(
         <div className="dashboard">
-            <Navigation loggedIn={true} user={user}/>
+            <Navigation loggedIn={true} user={user} />
+            <div className="dashboard-content">
+                <div className="dashboard-links"></div>
+                <div className="dashboard-main"></div>
+            </div>
         </div>
     )
 }
