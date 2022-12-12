@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navigation from "../components/application/navigation";
+import DashboardLinks from '../components/dashboard/dashboardLinks';
+import DashboardControllerMonth from '../components/dashboard/dashboardControllerMonth';
 
 /**
  * The dashboard screen of the application, where the logged in user can interact
@@ -29,8 +31,8 @@ export default function Dashboard() {
         <div className="dashboard">
             <Navigation loggedIn={true} user={user} />
             <div className="dashboard-content">
-                <div className="dashboard-links"></div>
-                <div className="dashboard-main"></div>
+                <DashboardLinks user={user}/>
+                <DashboardControllerMonth user={user} />
             </div>
         </div>
     )
