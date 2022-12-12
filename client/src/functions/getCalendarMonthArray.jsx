@@ -5,10 +5,10 @@ import dayjs from 'dayjs';
  * @param {*} props the year and month of the calendar
  * @returns daysMat -> the calendar 2d array
  */
-export default function getMonth(props) {
+export default function getCalendarMonthArray(props) {
     const firstDayOfMonth = dayjs(new Date(props.year, props.month-1)).day()
     let curr = 0 - firstDayOfMonth;
-    const daysMat = new Array(5).fill([]).map(() => {
+    const daysMat = new Array(6).fill([]).map(() => {
         return new Array(7).fill(null).map(() => {
             curr++;
             return dayjs(new Date(props.year, props.month-1, curr));

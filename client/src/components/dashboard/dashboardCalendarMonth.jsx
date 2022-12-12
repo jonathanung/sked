@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import getMonth from '../../functions/getMonth';
+import getCalendarMonthArray from '../../functions/getCalendarMonthArray';
 import getAllDayNames from '../../functions/getAllDayNames';
 import getMonthName from '../../functions/getMonthName';
 import CalendarMonthViewDay from '../calendar/calendarMonthViewDay';
@@ -10,10 +10,10 @@ import CalendarMonthViewDay from '../calendar/calendarMonthViewDay';
  * @returns the calendar view
  */
 export default function DashboardCalendarMonth(props) {
-    const [calendar, setCalendar] = useState(getMonth(props));
+    const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
 
     useEffect(() => { 
-        setCalendar(getMonth(props));
+        setCalendar(getCalendarMonthArray(props));
     }, [props])
 
     return (
