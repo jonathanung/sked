@@ -1,7 +1,8 @@
 
 .App {
   text-align: center;
-  background-color: lightgray;
+  color: black; 
+  background-color: rgb(137, 135, 135);
 }
 
 .home-page, .dashboard, .logged-out{
@@ -104,7 +105,8 @@
 }
 
 .dashboard-links{
-  max-width: 20vw;
+  min-width: 13vw;
+  max-width: 13vw;
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -120,19 +122,26 @@
   white-space:normal !important;
 }
 
-.calendar-month-view-week {
-  display: flex;
+.calendar-parent {
+  margin: 2vh 2vw;
 }
 
-.calendar-month-view-week-header {
-  display: flex;
-  font-weight: bold;
-}
-
-.calendar-month-view-day-header{
-  margin: 20px;
+.calendar-month-view{
+  table-layout: fixed !important;
+  max-height: 83vh;
 }
 
 .calendar-month-view-day {
-  margin: 45px;
+  table-layout: fixed !important;
+}
+
+.calendar-month-view-day-header-cell {
+  font-size: small;
+}
+
+.calendar-month-view-day-cell { 
+  font-size: xx-small;
+  overflow: hidden !important;
+  word-wrap:break-word;
+  word-break: break-all;
 }

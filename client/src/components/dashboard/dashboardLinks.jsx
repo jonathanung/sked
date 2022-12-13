@@ -9,7 +9,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
  */
 export default function DashboardLinks(props) {
     return(
-            <Navbar className="dashboard-links" bg="secondary" variant="dark">
+            <Navbar className={props.isWide ? "dashboard-links" : "dashboard-links-vert"} bg="secondary" variant="dark">
                 Currently a placeholder, work in progress!
             </Navbar>
         );

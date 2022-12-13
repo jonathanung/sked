@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'react-bootstrap';
 import getCalendarMonthArray from '../../functions/getCalendarMonthArray';
 import getAllDayNames from '../../functions/getAllDayNames';
 import getMonthName from '../../functions/getMonthName';
@@ -17,28 +18,38 @@ export default function DashboardCalendarMonth(props) {
     }, [props])
 
     return (
-        <div className="calendar-month-view">
+        <div className="calendar-parent">
+            <Button onClick={props.prevMonth}>-Month</Button>
+            <Button onClick={props.nextMonth}>+Month</Button>
+            <Button onClick={props.prevYear}>-Year</Button>
+            <Button onClick={props.nextYear}>+Year</Button>
             <h2>{getMonthName(props.month)}, {props.year}</h2>
-            <div className="calendar-month-view-week-header">
-                {getAllDayNames().map((day, i) => {
-                    return (
-                        <div className="calendar-month-view-day-header" key={i}>
-                            {day}
-                        </div>
-                    )
-                })}
-            </div>
-            {calendar.map((week, i) => {
-                return (
-                    <div className="calendar-month-view-week" key={i}>
-                        {week.map((day, j) => {
+            <Table className="calendar-month-view" bordered variant="dark" responsive="sm">
+                <thead>
+                    <tr className="calendar-month-view-week-header">
+                        {getAllDayNames().map((day, i) => {
                             return (
-                                <CalendarMonthViewDay month={props.month} day={day} key={i + j} />
+                                <th className="calendar-month-view-week-header" key={i}>
+                                    {props.isWide ? day : day.substring(0,2)}
+                                </th>
                             )
                         })}
-                    </div>
-                )
-            })}
+                    </tr>
+                </thead>
+                <tbody> 
+                    {calendar.map((week, i) => {
+                        return (
+                            <tr className="calendar-month-view-week" key={i}>
+                                {week.map((day, j) => {
+                                    return (
+                                        <CalendarMonthViewDay month={props.month} day={day} key={i + j} />
+                                    )
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
         </div>
     )
 }
