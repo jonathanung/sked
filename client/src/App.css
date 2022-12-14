@@ -145,3 +145,18 @@
   word-wrap:break-word;
   word-break: break-all;
 }
+
+.add-event-month {
+  font-size: xx-small !important;
+  
+}
+
+.view-month-form-header {
+  display: flex; 
+  justify-content: space-evenly;
+}
+
+.view-month-form-header-text {
+  text-align:center;
+  text-overflow: clip;
+}

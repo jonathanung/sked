@@ -12,6 +12,7 @@ import CalendarMonthViewDay from '../calendar/calendarMonthViewDay';
  */
 export default function DashboardCalendarMonth(props) {
     const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
+    const [hasFormDisplay, setHasFormDisplay] = useState(false);
 
     useEffect(() => { 
         setCalendar(getCalendarMonthArray(props));
@@ -42,7 +43,7 @@ export default function DashboardCalendarMonth(props) {
                             <tr className="calendar-month-view-week" key={i}>
                                 {week.map((day, j) => {
                                     return (
-                                        <CalendarMonthViewDay month={props.month} day={day} key={i + j} />
+                                        <CalendarMonthViewDay hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
                                     )
                                 })}
                             </tr>

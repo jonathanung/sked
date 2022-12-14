@@ -25,7 +25,6 @@ export default function DashboardControllerMonth(props) {
                 return (month+1);
             });
         }
-        console.log(month);
     }
 
     const prevMonth = () => {
@@ -41,7 +40,6 @@ export default function DashboardControllerMonth(props) {
                 return (month-1);
             });
         }
-        console.log(month);
     }
 
     const nextYear = () => { setYear(year => { return (year+1); } )}
