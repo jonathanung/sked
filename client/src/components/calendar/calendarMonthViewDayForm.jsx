@@ -10,8 +10,28 @@ export default function CalendarMonthViewDayForm(props) {
         true: "left",
         false: "top"
     }
-    const [value, onChange] = useState('10:00');
+    const getNumFormat = (month) => {
+        if (month > 9) {
+            return month.toString();
+        } else {
+            return "0" + month.toString();
+        }
+    }
 
+    const initFormState = {
+        name: '',
+        startTime: '',
+        endTime: '',
+        description: '',
+        location: ''
+    }
+    const [event, setEvent] = useState(initFormState);
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setEvent({ ...event, [name]: value });
+    }
+    
     return (
         <Overlay
         show={props.show}
@@ -27,8 +47,15 @@ export default function CalendarMonthViewDayForm(props) {
                 <Popover.Body>
                     <Form>
                         <FormGroup>
-                            <label for="birthdaytime">Birthday (date and time):</label>
-                            <input type="datetime-local" id="birthdaytime" name="birthdaytime"/>
+                            <label for="startTime">Event Start:</label>
+                            <input value={props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T00:00"} type="datetime-local" id="startTime" name="startTime"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <label for="endTime">Event End:</label>
+                            <input value={props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T12:00"} type="datetime-local" id="endTime" name="endTime"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Button size="sm">Create Event!</Button>
                         </FormGroup>
                     </Form>
                 </Popover.Body>

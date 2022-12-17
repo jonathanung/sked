@@ -20,10 +20,12 @@ export default function DashboardCalendarMonth(props) {
 
     return (
         <div className="calendar-parent">
-            <Button onClick={props.prevMonth}>-Month</Button>
-            <Button onClick={props.nextMonth}>+Month</Button>
-            <Button onClick={props.prevYear}>-Year</Button>
-            <Button onClick={props.nextYear}>+Year</Button>
+            <div className="button-change-holder">
+                <Button onClick={props.prevMonth}>-Month</Button>
+                <Button onClick={props.nextMonth}>+Month</Button>
+                <Button onClick={props.prevYear}>-Year</Button>
+                <Button onClick={props.nextYear}>+Year</Button>
+            </div>
             <h2>{getMonthName(props.month)}, {props.year}</h2>
             <Table className="calendar-month-view" bordered variant="dark" responsive="sm">
                 <thead>
