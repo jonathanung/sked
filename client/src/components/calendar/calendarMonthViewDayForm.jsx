@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Overlay, Popover, Button, Form, FormGroup } from 'react-bootstrap';
 import getMonthName from '../../functions/getMonthName';
 /**
@@ -20,16 +21,24 @@ export default function CalendarMonthViewDayForm(props) {
 
     const initFormState = {
         name: '',
-        startTime: '',
-        endTime: '',
+        startTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T00:00",
+        endTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T12:00",
         description: '',
         location: ''
     }
-    const [event, setEvent] = useState(initFormState);
+    const [eventData, setEventData] = useState(initFormState);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setEvent({ ...event, [name]: value });
+        setEventData(eventData => { return ({ ...eventData, [name]: value }) });
+    }
+
+    const handleSubmit = (e) => { 
+        e.preventDefault();
+        setEventData(eventData => { return ({ ...eventData, startTime: new Date(eventData.startTime), endTime: new Date(eventData.endTime) }) })
+        axios.post("http://localhost:8000/api/event/create", eventData, {withCredentials: true})
+            .then(res => props.addEvent(props.day.$D, res.data))
+            .catch(err => console.log(err))
     }
     
     return (
@@ -45,17 +54,30 @@ export default function CalendarMonthViewDayForm(props) {
                         <Button onClick={props.handleClick} size="sm">x</Button>
                 </Popover.Header>
                 <Popover.Body>
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <FormGroup>
-                            <label for="startTime">Event Start:</label>
-                            <input value={props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T00:00"} type="datetime-local" id="startTime" name="startTime"/>
+                            <label htmlFor="name">Name</label>
+                            <input value={eventData.name || ''} type="text" name="name" id="name" onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
-                            <label for="endTime">Event End:</label>
-                            <input value={props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T12:00"} type="datetime-local" id="endTime" name="endTime"/>
+                            <label htmlFor="description">Description</label>
+                            <input value={eventData.description || ''} type="text" name="description" id="description" onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
-                            <Button size="sm">Create Event!</Button>
+                            <label htmlFor="location">Location</label>
+                            <input value={eventData.location || ''} type="text" name="location" id="location" onChange={handleChange} />
+                        </FormGroup>
+                        
+                        <FormGroup>
+                            <label htmlFor="startTime">Event Start:</label>
+                            <input value={eventData.startTime} type="datetime-local" id="startTime" name="startTime" onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <label htmlFor="endTime">Event End:</label>
+                            <input value={eventData.endTime} type="datetime-local" id="endTime" name="endTime" onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button size="sm" type="submit" onClick={props.handleClick}>Create Event!</Button>
                         </FormGroup>
                     </Form>
                 </Popover.Body>

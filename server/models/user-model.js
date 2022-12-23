@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
             message: "Passwords must be at least 8 characters long and have an uppercase letter, a lowercase letter, a number and a symbol!"
         },
     },
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Events"
+    }]
 }, { timestamps: true });
 
 //This function gets the confirmPassword variable from the API Post and sets it to a variable

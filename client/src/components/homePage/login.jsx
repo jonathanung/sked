@@ -46,11 +46,11 @@ export default function Login(props){
             <Form onSubmit={handleSubmit}>
                 {!valid? <Badge bg="danger">Username or password incorrect!</Badge>: null}
                 <FormGroup>
-                    <Label for="email">Email</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input type="text" name="email" id="email" value={user.email || ''} onChange={handleChange} autoComplete="email"/>
                 </FormGroup>
                 <FormGroup>
-                    <Label for="password">Password</Label>
+                    <Label htmlFor="password">Password</Label>
                     <div className="password-with-show">
                         <Input type={passDict[visible][0]} name="password" id="password" value={user.password || ''} onChange={handleChange} autoComplete="password"/> 
                         <Button color="secondary" onClick={showPass} size="sm">{passDict[visible][1]}</Button>

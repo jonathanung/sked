@@ -18,6 +18,7 @@ require('./server/config/mongoose.config');
 
 //routes (/server/routes/data-routes)
 require('./server/routes/user-routes')(app);
+require('./server/routes/event-routes')(app);
 
 //express REST API port
 app.listen(port, () => {

@@ -47,7 +47,7 @@ export default function DashboardControllerMonth(props) {
 
     return (
         <div className="dashboard-controller">
-            <DashboardCalendarMonth month={month} year={year} prevMonth={prevMonth} nextMonth={nextMonth} prevYear={prevYear} nextYear={nextYear} isWide={props.isWide} />
+            <DashboardCalendarMonth user={props.user} month={month} year={year} prevMonth={prevMonth} nextMonth={nextMonth} prevYear={prevYear} nextYear={nextYear} isWide={props.isWide} />
         </div>
     )
 }

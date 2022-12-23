@@ -74,8 +74,8 @@ class UserController {
         if (!req.cookies.usertoken) {
             return res.sendStatus(400);
         }
-        const data = jwt.decode(req.cookies.usertoken, {complete: true})
-        User.findOne({_id: data.payload.id})
+        const userData = jwt.decode(req.cookies.usertoken, { complete: true }), userID = userData.payload.id;
+        User.findOne({_id: userID})
             .then(user => {res.json(user)})
             .catch(error => {res.json(error)})
     }

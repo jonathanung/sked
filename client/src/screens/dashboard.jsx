@@ -34,6 +34,7 @@ export default function Dashboard() {
             : axios.get("http://localhost:8000/api/user/current", { withCredentials: true })
                 .then(res => setUserAPI(res.data))
                 .catch(err => navigate("/"))
+        // console.log(user)
     }, [loaded])
 
     return(

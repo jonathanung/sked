@@ -79,25 +79,25 @@ export default function Register(props) {
             <h2>(sked.) register.</h2>
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                    <Label for="firstName">First name</Label>
+                    <Label htmlFor="firstName">First name</Label>
                     <Input type="text" name="firstName" id="firstName" value={user.firstName || ''} onChange={handleChange} autoComplete="firstName" />
                     {valid.firstName === false? <Badge className="error" bg="warning">First name is required!</Badge>: null}
                     {errors.firstName && valid.firstName? <Badge className="error" bg="danger">{errors.firstName.message}</Badge>: null}
                 </FormGroup>
                 <FormGroup>
-                    <Label for="lastName">Last name</Label>
+                    <Label htmlFor="lastName">Last name</Label>
                     <Input type="text" name="lastName" id="lastName" value={user.lastName || ''} onChange={handleChange} autoComplete="lastName" />
                     {valid.lastName === false? <Badge className="error" bg="warning">Last name is required!</Badge>: null}
                     {errors.lastName && valid.lastName ? <Badge className="error" bg="danger">{errors.lastName.message}</Badge> : null}
                 </FormGroup>
                 <FormGroup>
-                    <Label for="email">Email</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input type="text" name="email" id="email" value={user.email || ''} onChange={handleChange} autoComplete="email" />
                     {valid.email === false? <Badge className="error" bg="warning">A valid email is required!</Badge>: null}
                     {errors.email && valid.email ? <Badge className="error" bg="danger">{errors.email.message}</Badge> : null}
                 </FormGroup>
                 <FormGroup>
-                    <Label for="password">Password</Label> 
+                    <Label htmlFor="password">Password</Label> 
                     <div className="password-with-show">
                         <Input type={passDict[visible][0]} name="password" id="password" value={user.password || ''} onChange={handleChange} autoComplete="password"/> 
                         <Button color="secondary" onClick={showPass} size="sm">{passDict[visible][1]}</Button>
@@ -108,7 +108,7 @@ export default function Register(props) {
                     {errors.password && valid.password ? <Badge className="error" bg="danger">{errors.password.message}</Badge> : null}
                 </FormGroup>
                 <FormGroup>
-                    <Label for="confirmPassword">Confirm password</Label>
+                    <Label htmlFor="confirmPassword">Confirm password</Label>
                     <Input type={passDict[visible][0]} name="confirmPassword" id="confirmPassword" value={user.confirmPassword || ''} onChange={handleChange} />
                     {valid.confirmPassword === false? <Badge className="error" bg="warning">The passwords must match!</Badge>: null}
                     {errors.confirmPassword && valid.confirmPassword ? <Badge className="error" bg="danger">{errors.confirmPassword.message}</Badge> : null}
