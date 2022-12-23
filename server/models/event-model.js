@@ -11,6 +11,9 @@ const EventSchema = new mongoose.Schema({
     location: {
         type: String,
     },
+    expense: {
+        type: Number
+    },
     startTime: {
         type: Date,
         required: [true, "Start Time is required!"]
