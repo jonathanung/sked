@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Overlay, Popover, Button, Form, FormGroup } from 'react-bootstrap';
 import getMonthName from '../../functions/getMonthName';
@@ -37,9 +37,13 @@ export default function CalendarMonthViewDayForm(props) {
         e.preventDefault();
         setEventData(eventData => { return ({ ...eventData, startTime: new Date(eventData.startTime), endTime: new Date(eventData.endTime) }) })
         axios.post("http://localhost:8000/api/event/create", eventData, {withCredentials: true})
-            .then(res => props.addEvent(props.day.$D, res.data))
+            .then(res => props.setLoaded(false))
             .catch(err => console.log(err))
     }
+
+    useEffect(() => { 
+        setEventData(initFormState)
+    }, [props.month, props.year, props.day])
     
     return (
         <Overlay
@@ -70,11 +74,11 @@ export default function CalendarMonthViewDayForm(props) {
                         
                         <FormGroup>
                             <label htmlFor="startTime">Event Start:</label>
-                            <input value={eventData.startTime} type="datetime-local" id="startTime" name="startTime" onChange={handleChange} />
+                            <input value={eventData.startTime || initFormState.startTime} type="datetime-local" id="startTime" name="startTime" onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
                             <label htmlFor="endTime">Event End:</label>
-                            <input value={eventData.endTime} type="datetime-local" id="endTime" name="endTime" onChange={handleChange} />
+                            <input value={eventData.endTime || initFormState.endTime} type="datetime-local" id="endTime" name="endTime" onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
                             <Button size="sm" type="submit" onClick={props.handleClick}>Create Event!</Button>

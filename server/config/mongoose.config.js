@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('strictQuery', true);
 require('dotenv').config();
 const db = process.env.MONGODB_KEY
 

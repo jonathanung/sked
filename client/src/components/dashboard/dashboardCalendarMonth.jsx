@@ -14,26 +14,8 @@ import dayjs from 'dayjs';
  */
 export default function DashboardCalendarMonth(props) {
     const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
-    const [loaded, setLoaded] = useState(false);
     const [hasFormDisplay, setHasFormDisplay] = useState(false);
-
     const [userEvents, setUserEvents] = useState({})
-    
-    const addEvent = (date, data) => {
-        const A = userEvents[date];
-        const B = [];
-        if (A === undefined) {
-            B.push(data)
-        } else {
-            for (const a of A) {
-                B.push(a)
-            }
-            B.push(data)
-        }
-        console.log(userEvents[date], data, B)
-            
-        setUserEvents({ ...userEvents, date : B});
-    }
 
     const getUserEvents = () => {
         axios.get("http://localhost:8000/api/event/getUserEvents", { withCredentials: true })
@@ -45,7 +27,7 @@ export default function DashboardCalendarMonth(props) {
         const sortedEvents = {};
         for (const event of eventsArray) {
             const fEvent = dayjs(event.startTime)
-            if (fEvent.$M + 1 === props.month) {
+            if (fEvent.$M + 1 === props.month && fEvent.$y === props.year) {
                 if (sortedEvents[fEvent.$D] === undefined) {
                     sortedEvents[fEvent.$D] = [event]
                 } else {
@@ -59,9 +41,9 @@ export default function DashboardCalendarMonth(props) {
 
     useEffect(() => { 
         setCalendar(getCalendarMonthArray(props));
-        if (!loaded) {
+        if (!props.loaded) {
             getUserEvents();
-            setLoaded(true);
+            props.setLoaded(true);
         }
     }, [props])
 
@@ -92,7 +74,7 @@ export default function DashboardCalendarMonth(props) {
                             <tr className="calendar-month-view-week" key={i}>
                                 {week.map((day, j) => {
                                     return (
-                                        <CalendarMonthViewDay addEvent={addEvent} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
+                                        <CalendarMonthViewDay setLoaded={props.setLoaded} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
                                     )
                                 })}
                             </tr>

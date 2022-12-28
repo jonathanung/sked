@@ -64,12 +64,12 @@ export default function CalendarMonthViewDay(props) {
                             </tr>
                         )
                     }) : null }
-                    <tr className="calendar-month-view-day-row">
+                    {props.day.$M+1 === props.month ? <tr className="calendar-month-view-day-row">
                         <td><Button onClick={handleClick} size="sm" className="add-event-month">+Add Event</Button></td>
-                    </tr>
+                    </tr> : null}
                 </tbody>
             </Table>
-            <CalendarMonthViewDayForm addEvent={props.addEvent} isWide={props.isWide}  year={props.year} month={props.month} day={props.day} handleClick={handleClick} show={show} target={target} innerRef={ref}/> 
+            <CalendarMonthViewDayForm setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day} handleClick={handleClick} show={show} target={target} innerRef={ref}/> 
         </td>
 
     )

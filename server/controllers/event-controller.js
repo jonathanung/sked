@@ -34,7 +34,7 @@ class EventController {
         }
         const userData = jwt.decode(req.cookies.usertoken, { complete: true }), userID = userData.payload.id;
         let user = await User.findOne({ _id: userID })
-        Event.find({ user: user }).sort({ startTime: -1 })
+        Event.find({ user: user }).sort({ startTime: 1 })
             .then(event => res.json(event))
             .catch(err => res.json(err))
     }
