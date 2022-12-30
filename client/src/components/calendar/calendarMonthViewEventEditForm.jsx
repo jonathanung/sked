@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Overlay, Popover, Button, Form, FormGroup } from 'react-bootstrap';
 import getMonthName from '../../functions/getMonthName';
+import dayjs from 'dayjs';
 /**
  * The form for adding events to the list of events.
  * @param {*} props 
  */
-export default function CalendarMonthViewDayForm(props) {
+export default function CalendarMonthViewEventEditForm(props) {
     const placementDict = {
         true: "left",
         false: "top"
     }
+
     const getNumFormat = (month) => {
         if (month > 9) {
             return month.toString();
@@ -19,13 +21,16 @@ export default function CalendarMonthViewDayForm(props) {
         }
     }
 
+    const sTime = dayjs(props.event.startTime);
+    const eTime = dayjs(props.event.endTime);
+
     const initFormState = {
-        name: '',
-        startTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T00:00",
-        endTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T12:00",
-        expense: 0,
-        description: '',
-        location: ''
+        name: props.event.name,
+        startTime: getNumFormat(sTime.$y)+"-"+getNumFormat(sTime.$M+1)+"-"+getNumFormat(sTime.$D)+"T"+getNumFormat(sTime.$H)+":"+getNumFormat(sTime.$m),
+        endTime: getNumFormat(eTime.$y) + "-" + getNumFormat(eTime.$M + 1) + "-" + getNumFormat(eTime.$D) + "T" + getNumFormat(eTime.$H) + ":" + getNumFormat(eTime.$m),
+        expense: props.event.expense || 0,
+        description: props.event.description || '',
+        location: props.event.location || ''
     }
     const [eventData, setEventData] = useState(initFormState);
 
@@ -37,14 +42,14 @@ export default function CalendarMonthViewDayForm(props) {
     const handleSubmit = (e) => { 
         e.preventDefault();
         setEventData(eventData => { return ({ ...eventData, startTime: new Date(eventData.startTime), endTime: new Date(eventData.endTime) }) })
-        axios.post("http://localhost:8000/api/event/create", eventData, {withCredentials: true})
+        axios.put(`http://localhost:8000/api/event/update/${props.event._id}`, eventData, {withCredentials: true})
             .then(res => props.setLoaded(false))
             .catch(err => console.log(err))
     }
 
     useEffect(() => { 
         setEventData(initFormState)
-    }, [props.month, props.year, props.day])
+    }, [props.month, props.year, props.day, props.event])
     
     return (
         <Overlay
@@ -55,7 +60,7 @@ export default function CalendarMonthViewDayForm(props) {
         containerPadding={20}>
             <Popover id="popover-contained">
                 <Popover.Header className="view-month-form-header" style={{color:  "black"}}>
-                        <h6 className="view-month-form-header-text"> Add an event to {getMonthName(props.day.$M + 1)} {props.day.$D}, {props.year}</h6>
+                    <h6 className="view-month-form-header-text"> Editing event {props.event.name} on {getMonthName(props.day.$M + 1)} {props.day.$D}, {props.year}</h6>
                         <Button onClick={props.handleClick} size="sm">x</Button>
                 </Popover.Header>
                 <Popover.Body>
@@ -86,9 +91,11 @@ export default function CalendarMonthViewDayForm(props) {
                             <input value={eventData.endTime || initFormState.endTime} type="datetime-local" id="endTime" name="endTime" onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
-                            <Button size="sm" type="submit" onClick={props.handleClick}>Create Event!</Button>
+                            <Button size="sm" type="submit" onClick={props.handleClick}>Update Event!</Button>
                         </FormGroup>
                     </Form>
+                    <br/>
+                    <Button size="sm" onClick={props.handleDelete}>Delete Event!</Button>
                 </Popover.Body>
             </Popover>
         </Overlay>

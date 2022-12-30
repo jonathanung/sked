@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { Table, Button } from 'react-bootstrap';
 import CalendarMonthViewDayForm from './calendarMonthViewDayForm';
-import dayjs from 'dayjs';
+import CalendarMonthViewEvent from './calendarMonthViewEvent';
 
 /**
  * The view of the day currently selected in the calendar month view
@@ -40,14 +40,6 @@ export default function CalendarMonthViewDay(props) {
         }
     }, [props.hasFormDisplay])
 
-    const formatTime = (n) => {
-        if (n < 9) {
-            return ("0" + n.toString());
-        } else {
-            return (n.toString());
-        }
-    }
-
     return (
         <td className="calendar-month-view-day" ref={ref}>
             <Table variant="dark" borderless striped size="sm">
@@ -60,7 +52,7 @@ export default function CalendarMonthViewDay(props) {
                     {props.events ? props.events.map((event, i) => {
                         return (
                             <tr key={i} className="calendar-month-view-day-row">
-                                <td className="calendar-month-view-day-cell">{event.name} @ {formatTime(dayjs(event.startTime).$d.getHours())}:{formatTime(dayjs(event.startTime).$d.getMinutes())}</td>
+                                <CalendarMonthViewEvent setHasFormDisplay={props.setHasFormDisplay} hasFormDisplay={props.hasFormDisplay} event={event} setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day}/>
                             </tr>
                         )
                     }) : null }

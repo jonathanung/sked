@@ -16,6 +16,7 @@ export default function DashboardCalendarMonth(props) {
     const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
     const [hasFormDisplay, setHasFormDisplay] = useState(false);
     const [userEvents, setUserEvents] = useState({})
+    const [expenseTotal, setExpenseTotal] = useState(0);
 
     const getUserEvents = () => {
         axios.get("http://localhost:8000/api/event/getUserEvents", { withCredentials: true })
@@ -24,10 +25,12 @@ export default function DashboardCalendarMonth(props) {
     }
 
     const sortUserEvents = (eventsArray) => {
+        setExpenseTotal(() => { return (0) });
         const sortedEvents = {};
         for (const event of eventsArray) {
             const fEvent = dayjs(event.startTime)
             if (fEvent.$M + 1 === props.month && fEvent.$y === props.year) {
+                if (event.expense) setExpenseTotal(expenseTotal => { return (expenseTotal + event.expense) });
                 if (sortedEvents[fEvent.$D] === undefined) {
                     sortedEvents[fEvent.$D] = [event]
                 } else {
@@ -42,6 +45,7 @@ export default function DashboardCalendarMonth(props) {
     useEffect(() => { 
         setCalendar(getCalendarMonthArray(props));
         if (!props.loaded) {
+            setExpenseTotal(() => {return(0)});
             getUserEvents();
             props.setLoaded(true);
         }
@@ -82,6 +86,7 @@ export default function DashboardCalendarMonth(props) {
                     })}
                 </tbody>
             </Table>
+            <p>Expenses this month: {expenseTotal}</p>
         </div>
     )
 }

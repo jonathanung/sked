@@ -55,18 +55,32 @@ class EventController {
 
     // Update an event
     updateEvent = async (req, res) => {
-        const startTime = req.body.startTime;
-        const endTime = req.body.endTime;
-        if (startTime >= endTime) {
+        if (!req.cookies.usertoken) {
+            return res.status(400);
+        }
+
+        //need to add user verification! -> is user in calendar approved list, calendar owner or event owner?
+
+        const userData = jwt.decode(req.cookies.usertoken, { complete: true }), userID = userData.payload.id;
+        let { ...data } = req.body;
+        
+        if (req.body.startTime >= req.body.endTime) {
             return res.status(400).send({ error: "Start time must be before end time" });
         }
-        Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+        Event.findByIdAndUpdate(req.params.id, data, { new: true })
             .then(event => res.json(event))
             .catch(err => res.json(err));
     };
 
     // Delete an event
     deleteEvent = async (req, res) => {
+        if (!req.cookies.usertoken) {
+            return res.status(400);
+        }
+
+        //check for verification? {same as the update event verifications}
+
         Event.findByIdAndDelete(req.params.id)
             .then(event => res.json(event))
             .catch(err => res.json(err));

@@ -116,6 +116,7 @@
 .dashboard-links-vert{
   display:flex;
   flex-direction: row;
+  min-height: 20vh;
 }
 
 .badge {
