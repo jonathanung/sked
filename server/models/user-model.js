@@ -30,7 +30,11 @@ const UserSchema = new mongoose.Schema({
     },
     events: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Events"
+        ref: "Event"
+    }],
+    calendars: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Calendar"
     }]
 }, { timestamps: true });
 

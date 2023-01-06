@@ -173,6 +173,24 @@
   align-items: center;
 }
 
+.dashboard-links-calendar-parent {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+}
 
+.dashboard-links-calendar-text > * {
+  white-space: initial;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-all; 
+}
+
+.dashboard-links-calendar-parent > *{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 /*wilson*/

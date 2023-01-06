@@ -7,8 +7,9 @@ import React from 'react';
 export default function Description(){
     return(
         <div className="home-description">
-            <h3>(sked.) is a scheduler designed to categorize the events in your life in a manner that is simple to organize, read and manage. 
-                (sked.) has options to help organize your events by type and add expenses to your events, and also allows you to share calendars with other users.
+            <h3>(sked.) is a scheduler designed to categorize the events in your life in a manner that is simple to organize and use.
+                The product is in a very crude state at the moment as it is currently an MVP. The website may experience periodic updates.
+                For the source code, please visit <a href="https://github.com/jonathanung/sked"> here </a>
             </h3>
         </div>
     )

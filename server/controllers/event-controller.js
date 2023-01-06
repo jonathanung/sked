@@ -1,4 +1,5 @@
 const Event = require('../models/event-model');
+const Calendar = require('../models/calendar-model')
 const User = require('../models/user-model');
 const jwt = require('jsonwebtoken');
 
@@ -10,18 +11,25 @@ class EventController {
         }
         const userData = jwt.decode(req.cookies.usertoken, { complete: true }), userID = userData.payload.id;
         let user = await User.findOne({ _id: userID }), { ...data } = req.body;
-        
+
         if (req.body.startTime >= req.body.endTime) {
             return res.status(400).send({ error: "Start time must be before end time" });
         }
     
         data.user = user;
+
+        if (data.calendar) {
+            let calendar = await Calendar.findOne({_id: data.calendar})
+            data.calendar = calendar;
+        }
     
         try {
             const newEvent = await new Event(data).save()
-            // const eventArray = await User.find({ _id: userID }).events;
             //next project: optimize the database?
             const updatedUser = await User.findOneAndUpdate({ _id: userID }, { $push: { events: newEvent } })
+            if (data.calendar) {
+                const updatedCalendar = await Calendar.findOneAndUpdate({_id: data.calendar._id}, {$push: {events: newEvent} })
+            }
             res.json(newEvent);
         } catch (err) {
             res.json(err);
@@ -39,19 +47,16 @@ class EventController {
             .catch(err => res.json(err))
     }
 
-    // Get all events
-    getEvents = async (req, res) => {
-        Event.find()
-            .then(events => res.json(events))
-            .catch(err => res.json(err));
-    };
+    getEventCalendar = async (req, res) => {
+        if (!req.cookies.usertoken) {
+            return res.status(400);
+        }
+        const event = await Event.findById(req.params.id)
+        Calendar.findById(event.calendar)
+            .then(calendar => res.json(calendar))
+            .catch(err => res.json(err))
+    }
 
-    // Get a single event
-    getEvent = async (req, res) => {
-        Event.findById(req.params.id)
-            .then(event => res.json(event))
-            .catch(err => res.json(err));
-    };
 
     // Update an event
     updateEvent = async (req, res) => {
@@ -68,7 +73,11 @@ class EventController {
             return res.status(400).send({ error: "Start time must be before end time" });
         }
 
-        Event.findByIdAndUpdate(req.params.id, data, { new: true })
+        if (!data.calendar) {
+            await Event.findByIdAndUpdate(req.params.id, {$unset: {calendar: 1}})
+        }
+
+        Event.findByIdAndUpdate(req.params.id, data)
             .then(event => res.json(event))
             .catch(err => res.json(err));
     };

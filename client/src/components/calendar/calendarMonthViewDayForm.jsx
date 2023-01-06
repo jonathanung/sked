@@ -24,6 +24,7 @@ export default function CalendarMonthViewDayForm(props) {
         startTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T00:00",
         endTime: props.year.toString() + "-" + getNumFormat(props.month) + "-" + getNumFormat(props.day.$D) + "T12:00",
         expense: 0,
+        calendar: ' ',
         description: '',
         location: ''
     }
@@ -36,6 +37,9 @@ export default function CalendarMonthViewDayForm(props) {
 
     const handleSubmit = (e) => { 
         e.preventDefault();
+        if (eventData.calendar === ' ') {
+            setEventData(eventData => { delete eventData.calendar; return ({...eventData}) });
+        }
         setEventData(eventData => { return ({ ...eventData, startTime: new Date(eventData.startTime), endTime: new Date(eventData.endTime) }) })
         axios.post("http://localhost:8000/api/event/create", eventData, {withCredentials: true})
             .then(res => props.setLoaded(false))
@@ -75,6 +79,18 @@ export default function CalendarMonthViewDayForm(props) {
                         <FormGroup>
                             <label htmlFor="expense">Expense</label>
                             <input value={eventData.expense || ''} type="number" name="expense" id="expense" onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <label htmlFor="calendar">Calendar</label>
+                            {props.userCalendars ?
+                                <Form.Select value={eventData.calendar || null} name="calendar" id="calendar" onChange={handleChange}>
+                                <option value={' '}>-No calendar!-</option>
+                                {props.userCalendars.map((calendar, i) => {
+                                    return (
+                                        <option value={calendar._id} key={i}>{calendar.name}</option>
+                                    )
+                                })}
+                            </Form.Select> : <p>You have no calendars!</p>}
                         </FormGroup>
                         
                         <FormGroup>

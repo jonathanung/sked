@@ -16,11 +16,18 @@ export default function DashboardCalendarMonth(props) {
     const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
     const [hasFormDisplay, setHasFormDisplay] = useState(false);
     const [userEvents, setUserEvents] = useState({})
+    const [userCalendars, setUserCalendars] = useState([])
     const [expenseTotal, setExpenseTotal] = useState(0);
 
     const getUserEvents = () => {
         axios.get("http://localhost:8000/api/event/getUserEvents", { withCredentials: true })
             .then(events => sortUserEvents(events.data))
+            .catch(err => console.log(err))
+    }
+    
+    const getUserCalendars = () => {
+        axios.get("http://localhost:8000/api/calendar/getUserCalendars", { withCredentials: true })
+            .then(calendars => setUserCalendars(calendars.data))
             .catch(err => console.log(err))
     }
 
@@ -45,7 +52,8 @@ export default function DashboardCalendarMonth(props) {
     useEffect(() => { 
         setCalendar(getCalendarMonthArray(props));
         if (!props.loaded) {
-            setExpenseTotal(() => {return(0)});
+            setExpenseTotal(() => { return (0) });
+            getUserCalendars();
             getUserEvents();
             props.setLoaded(true);
         }
@@ -78,7 +86,7 @@ export default function DashboardCalendarMonth(props) {
                             <tr className="calendar-month-view-week" key={i}>
                                 {week.map((day, j) => {
                                     return (
-                                        <CalendarMonthViewDay setLoaded={props.setLoaded} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
+                                        <CalendarMonthViewDay userCalendars={userCalendars} setLoaded={props.setLoaded} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
                                     )
                                 })}
                             </tr>

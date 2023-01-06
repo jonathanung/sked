@@ -29,6 +29,7 @@ export default function CalendarMonthViewEventEditForm(props) {
         startTime: getNumFormat(sTime.$y)+"-"+getNumFormat(sTime.$M+1)+"-"+getNumFormat(sTime.$D)+"T"+getNumFormat(sTime.$H)+":"+getNumFormat(sTime.$m),
         endTime: getNumFormat(eTime.$y) + "-" + getNumFormat(eTime.$M + 1) + "-" + getNumFormat(eTime.$D) + "T" + getNumFormat(eTime.$H) + ":" + getNumFormat(eTime.$m),
         expense: props.event.expense || 0,
+        calendar: props.event.calendar || ' ',
         description: props.event.description || '',
         location: props.event.location || ''
     }
@@ -41,6 +42,9 @@ export default function CalendarMonthViewEventEditForm(props) {
 
     const handleSubmit = (e) => { 
         e.preventDefault();
+        if (eventData.calendar === ' ') {
+            setEventData(eventData => { delete eventData.calendar; return ({...eventData}) });
+        }
         setEventData(eventData => { return ({ ...eventData, startTime: new Date(eventData.startTime), endTime: new Date(eventData.endTime) }) })
         axios.put(`http://localhost:8000/api/event/update/${props.event._id}`, eventData, {withCredentials: true})
             .then(res => props.setLoaded(false))
@@ -81,6 +85,19 @@ export default function CalendarMonthViewEventEditForm(props) {
                             <label htmlFor="expense">Expense</label>
                             <input value={eventData.expense || ''} type="number" name="expense" id="expense" onChange={handleChange} />
                         </FormGroup>
+                        <FormGroup>
+                            <label htmlFor="calendar">Calendar</label>
+                            {props.userCalendars ?
+                                <Form.Select value={eventData.calendar || null} name="calendar" id="calendar" onChange={handleChange}>
+                                <option value={' '}>-No calendar!-</option>
+                                {props.userCalendars.map((calendar, i) => {
+                                    return (
+                                        <option value={calendar._id} key={i}>{calendar.name}</option>
+                                    )
+                                })}
+                            </Form.Select> : <p>You have no calendars!</p>}
+                        </FormGroup>
+                        
                         
                         <FormGroup>
                             <label htmlFor="startTime">Event Start:</label>

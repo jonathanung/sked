@@ -52,7 +52,7 @@ export default function CalendarMonthViewDay(props) {
                     {props.events ? props.events.map((event, i) => {
                         return (
                             <tr key={i} className="calendar-month-view-day-row">
-                                <CalendarMonthViewEvent setHasFormDisplay={props.setHasFormDisplay} hasFormDisplay={props.hasFormDisplay} event={event} setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day}/>
+                                <CalendarMonthViewEvent userCalendars={props.userCalendars} setHasFormDisplay={props.setHasFormDisplay} hasFormDisplay={props.hasFormDisplay} event={event} setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day}/>
                             </tr>
                         )
                     }) : null }
@@ -61,7 +61,7 @@ export default function CalendarMonthViewDay(props) {
                     </tr> : null}
                 </tbody>
             </Table>
-            <CalendarMonthViewDayForm setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day} handleClick={handleClick} show={show} target={target} innerRef={ref}/> 
+            <CalendarMonthViewDayForm userCalendars={props.userCalendars} setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day} handleClick={handleClick} show={show} target={target} innerRef={ref}/> 
         </td>
 
     )

@@ -21,9 +21,9 @@ export default function getCalendarMonthArray(props) {
     }
     const firstDayOfMonth = dayjs(new Date(props.year, props.month - 1)).day()
     let arrSize = 5;
-    if ((firstDayOfMonth >= 5 && monthLen[31].includes(props.month) || (firstDayOfMonth === 6 && monthLen[30].includes(props.month)))) {
+    if (((firstDayOfMonth >= 5 && monthLen[31].includes(props.month)) || (firstDayOfMonth === 6 && monthLen[30].includes(props.month)))) {
         arrSize = 6;
-    } else if (firstDayOfMonth == 0 && props.month === 2) {
+    } else if (firstDayOfMonth === 0 && props.month === 2) {
         const isLeapYear = getIsLeapYear(props.year);
         if (!isLeapYear) {
             arrSize = 4;
