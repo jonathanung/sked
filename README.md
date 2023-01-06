@@ -2,17 +2,17 @@
 
 
 sked is a calendar application created using the MERN stack.
-Technologies used:
--Javascript
--HTML/CSS
--Mongoose MQL
--React
--MongoDB
--Express
--Node.js
--dayJS
--bcrypt
--axios
+## Technologies used:
+- Javascript
+- HTML/CSS
+- Mongoose MQL
+- React
+- MongoDB
+- Express
+- Node.js
+- dayJS
+- bcrypt
+- axios
      
 
 sked has the capability of generating a unique calendar using dayjs and functions, storing events, calendars and user.
