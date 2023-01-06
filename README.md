@@ -3,7 +3,7 @@
 
 sked is a calendar application created using the MERN stack.
   Technologies used:
-    Javascript
+     - Javascript
      HTML/CSS
      Mongoose MQL
      React
