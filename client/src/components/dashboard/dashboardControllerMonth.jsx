@@ -11,7 +11,6 @@ import DashboardCalendarMonth from "./dashboardCalendarMonth";
 export default function DashboardControllerMonth(props) {
     const [month, setMonth] = useState(dayjs().month()+1)
     const [year, setYear] = useState(dayjs().year())
-    const [loaded, setLoaded] = useState(false);
 
     const nextMonth = () => {
         if (month === 12) {
@@ -26,7 +25,7 @@ export default function DashboardControllerMonth(props) {
                 return (month+1);
             });
         }
-        setLoaded(() => { return (false); });
+        props.setLoaded(() => { return (false); });
     }
 
     const prevMonth = () => {
@@ -42,21 +41,21 @@ export default function DashboardControllerMonth(props) {
                 return (month-1);
             });
         }
-        setLoaded(() => { return (false); });
+        props.setLoaded(() => { return (false); });
     }
 
     const nextYear = () => {
         setYear(year => { return (year + 1); });
-        setLoaded(() => { return (false); });
+        props.setLoaded(() => { return (false); });
     }
     const prevYear = () => {
         setYear(year => { return (year - 1); });
-        setLoaded(() => { return (false); });
+        props.setLoaded(() => { return (false); });
     }
 
     return (
         <div className="dashboard-controller">
-            <DashboardCalendarMonth loaded={loaded} setLoaded={setLoaded} user={props.user} month={month} year={year} prevMonth={prevMonth} nextMonth={nextMonth} prevYear={prevYear} nextYear={nextYear} isWide={props.isWide} />
+            <DashboardCalendarMonth hasFormDisplay={props.hasFormDisplay} setHasFormDisplay={props.setHasFormDisplay} userCalendars={props.userCalendars} eventsArray={props.eventsArray} loaded={props.loaded} setLoaded={props.setLoaded} user={props.user} month={month} year={year} prevMonth={prevMonth} nextMonth={nextMonth} prevYear={prevYear} nextYear={nextYear} isWide={props.isWide} />
         </div>
     )
 }

@@ -14,22 +14,8 @@ import dayjs from 'dayjs';
  */
 export default function DashboardCalendarMonth(props) {
     const [calendar, setCalendar] = useState(getCalendarMonthArray(props));
-    const [hasFormDisplay, setHasFormDisplay] = useState(false);
     const [userEvents, setUserEvents] = useState({})
-    const [userCalendars, setUserCalendars] = useState([])
     const [expenseTotal, setExpenseTotal] = useState(0);
-
-    const getUserEvents = () => {
-        axios.get("http://localhost:8000/api/event/getUserEvents", { withCredentials: true })
-            .then(events => sortUserEvents(events.data))
-            .catch(err => console.log(err))
-    }
-    
-    const getUserCalendars = () => {
-        axios.get("http://localhost:8000/api/calendar/getUserCalendars", { withCredentials: true })
-            .then(calendars => setUserCalendars(calendars.data))
-            .catch(err => console.log(err))
-    }
 
     const sortUserEvents = (eventsArray) => {
         setExpenseTotal(() => { return (0) });
@@ -51,13 +37,10 @@ export default function DashboardCalendarMonth(props) {
 
     useEffect(() => { 
         setCalendar(getCalendarMonthArray(props));
-        if (!props.loaded) {
-            setExpenseTotal(() => { return (0) });
-            getUserCalendars();
-            getUserEvents();
-            props.setLoaded(true);
+        if (props.eventsArray) {
+            sortUserEvents(props.eventsArray);
         }
-    }, [props])
+    }, [props.month, props.year,props.eventsArray])
 
     return (
         <div className="calendar-parent">
@@ -86,7 +69,7 @@ export default function DashboardCalendarMonth(props) {
                             <tr className="calendar-month-view-week" key={i}>
                                 {week.map((day, j) => {
                                     return (
-                                        <CalendarMonthViewDay userCalendars={userCalendars} setLoaded={props.setLoaded} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={hasFormDisplay} setHasFormDisplay={setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
+                                        <CalendarMonthViewDay userCalendars={props.userCalendars} setLoaded={props.setLoaded} events={day.$M+1 === props.month ? userEvents[day.$D]: null} hasFormDisplay={props.hasFormDisplay} setHasFormDisplay={props.setHasFormDisplay} isWide={props.isWide} year={props.year} month={props.month} day={day} key={i + j} />
                                     )
                                 })}
                             </tr>
@@ -94,7 +77,7 @@ export default function DashboardCalendarMonth(props) {
                     })}
                 </tbody>
             </Table>
-            <p>Expenses this month: {expenseTotal}</p>
+            <p>Expenses this month: ${expenseTotal}</p>
         </div>
     )
 }

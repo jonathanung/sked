@@ -66,7 +66,8 @@ export default function CalendarMonthViewEvent(props) {
 
     return (
         <td className="calendar-month-view-day-cell" ref={ref} >
-            <a onClick={handleClick} style={{color: color}}>{props.event.name} @ {formatTime(dayjs(props.event.startTime).$d.getHours())}:{formatTime(dayjs(props.event.startTime).$d.getMinutes())} - {formatTime(dayjs(props.event.endTime).$d.getHours())}:{formatTime(dayjs(props.event.endTime).$d.getMinutes())}</a>
+            <a onClick={handleClick} style={{ color: color }}>{props.event.name} @ {formatTime(dayjs(props.event.startTime).$d.getHours())}:{formatTime(dayjs(props.event.startTime).$d.getMinutes())} - {formatTime(dayjs(props.event.endTime).$d.getHours())}:{formatTime(dayjs(props.event.endTime).$d.getMinutes())}</a>
+            {props.event.expense !== 0 ? <p style={{ color: color }}>Expense: ${props.event.expense}</p> : null}
             <CalendarMonthViewEventEditForm userCalendars={props.userCalendars} event={props.event} setLoaded={props.setLoaded} isWide={props.isWide}  year={props.year} month={props.month} day={props.day} handleClick={handleClick} handleDelete={handleDelete} show={show} target={target} innerRef={ref}/> 
         </td>
 

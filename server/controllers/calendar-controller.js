@@ -92,7 +92,7 @@ class CalendarController {
         //check for verification? {same as the update calendar verifications}
 
         const calendar = await Calendar.findById(req.params.id);
-        const updatedEvents = awaitEvent.deleteMany({ calendar: calendar })
+        const updatedEvents = await Event.deleteMany({ calendar: calendar })
         Calendar.findByIdAndDelete(req.params.id)
             .then(calendar => res.json(calendar))
             .catch(err => res.json(err));
